@@ -2,3 +2,7 @@
 aws_cdk.aws_s3==1.92.0
 aws_cdk.aws_rds==1.92.0
 aws_cdk.aws_ec2==1.92.0
+aws_cdk.aws_iam==1.92.0
+aws_cdk.aws_dms==1.92.0
+psycopg2-binary
+python-dotenv==0.19.2
