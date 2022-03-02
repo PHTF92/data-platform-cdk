@@ -137,3 +137,27 @@ Another source of data to the raw layer was a kinesis firehose ingestion. The fi
 ![firehose_active](images/firehose_active.png)
 
 ![kinesis_data_inserted](images/kinesis_data_inserted.png)
+
+
+#### Glue catalog
+
+Development branch:develop-glue-catalog
+
+![glue_catalog_github_actions](images/glue_catalog_github_actions.png)
+
+To detect schema of the previously ingested data from the kinesis stream it was created a crawler in glue catalog. For the data ingested from the RDS instance the schema was declared (just a few columns).
+
+![glue_catalog_crawler](images/glue_catalog_crawler.png)
+
+The created tables schemas can be accessed at the glue catalog table's list
+
+![glue_catalog_tables.png](images/glue_catalog_tables.png)
+
+
+Orders table schema:
+
+![glue_catalog_order_table.png](images/glue_catalog_order_table.png)
+
+Atomic events schema:
+
+![glue_catalog_atomic_events_schema.png](images/glue_catalog_atomic_events_schema.png)
