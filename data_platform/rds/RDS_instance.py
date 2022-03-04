@@ -45,27 +45,27 @@ class RDS_instance(core.Stack):
             parameters={"rds.logical_replication": "1", "wal_sender_timeout": "0"},
         )
 
-        self.orders_rds = rds.DatabaseInstance(
-            self,
-            f"orders-{self.deploy_env.value}-rds",
-            engine=rds.DatabaseInstanceEngine.postgres(
-                version=rds.PostgresEngineVersion.VER_12_4
-            ),
-            database_name="orders",
-            instance_type=ec2.InstanceType("t3.micro"),
-            vpc=self.custom_vpc,
-            instance_identifier=f"rds-{self.deploy_env.value}-orders-db",
-            port=5432,
-            vpc_placement=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
-            subnet_group=rds.SubnetGroup(
-                self,
-                f"rds-{self.deploy_env.value}-subnet",
-                description="place RDS on public subnet",
-                vpc=self.custom_vpc,
-                vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
-            ),
-            parameter_group=self.orders_rds_parameter_group,
-            security_groups=[self.orders_rds_sg],
-            removal_policy=core.RemovalPolicy.DESTROY,
-            **kwargs,
-        )
+        # self.orders_rds = rds.DatabaseInstance(
+        #     self,
+        #     f"orders-{self.deploy_env.value}-rds",
+        #     engine=rds.DatabaseInstanceEngine.postgres(
+        #         version=rds.PostgresEngineVersion.VER_12_4
+        #     ),
+        #     database_name="orders",
+        #     instance_type=ec2.InstanceType("t3.micro"),
+        #     vpc=self.custom_vpc,
+        #     instance_identifier=f"rds-{self.deploy_env.value}-orders-db",
+        #     port=5432,
+        #     vpc_placement=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
+        #     subnet_group=rds.SubnetGroup(
+        #         self,
+        #         f"rds-{self.deploy_env.value}-subnet",
+        #         description="place RDS on public subnet",
+        #         vpc=self.custom_vpc,
+        #         vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
+        #     ),
+        #     parameter_group=self.orders_rds_parameter_group,
+        #     security_groups=[self.orders_rds_sg],
+        #     removal_policy=core.RemovalPolicy.DESTROY,
+        #     **kwargs,
+        # )
