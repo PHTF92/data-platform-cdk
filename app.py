@@ -4,6 +4,7 @@ from data_platform.rds.RDS_instance import RDS_instance
 from data_platform.dms.stack import DmsStack
 from data_platform.kinesis.stack import KinesisStack
 from data_platform.glue_catalog.stack import GlueCatalogStack
+from data_platform.athena.stack import AthenaStack
 
 
 app = core.App()
@@ -19,5 +20,6 @@ glue_catalog = GlueCatalogStack(
     raw_data_lake_bucket=data_lake.data_lake_raw_bucket,
     processed_data_lake_bucket=data_lake.data_lake_processed_bucket,
 )
+athena = AthenaStack(app)
 
 app.synth()
