@@ -161,3 +161,20 @@ Orders table schema:
 Atomic events schema:
 
 ![glue_catalog_atomic_events_schema.png](images/glue_catalog_atomic_events_schema.png)
+
+#### AWS Athena
+
+Development branch: develop-athena
+
+![athena_github_actions](images/athena_github_actions.png)
+
+Athena is a service that can be used to query the data directly from the S3 bucket at rae layer. It is useful to exploring, inspect, and validating the data that was ingested.
+
+![athena_tables_created](images/athena_tables_created.png)
+
+![athena_query_orders_example](images/athena_query_orders_example.png)
+![athena_query_orders_example_result](images/athena_query_orders_example_result.png)
+
+![athena_query_atomic_events_example](images/athena_query_atomic_events_example.png)
+![athena_query_atomic_events_example_result](images/athena_query_atomic_events_example_result.png)
+
