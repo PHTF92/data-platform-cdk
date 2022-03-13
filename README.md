@@ -178,3 +178,55 @@ Athena is a service that can be used to query the data directly from the S3 buck
 ![athena_query_atomic_events_example](images/athena_query_atomic_events_example.png)
 ![athena_query_atomic_events_example_result](images/athena_query_atomic_events_example_result.png)
 
+#### Databricks and SPARK
+
+Development branch: develop-databricks
+
+To extract, transform and load the data from the raw layer to the processed layer it was used Spark jobs. The spark cluster was managed by Databricks enviroment and the deployment was made using CDK.
+
+![databricks_github_actions](images/databricks_github_actions.png)
+
+The notebook containing the code can be find at "jupyter_notebooks/spark-etl.ipynb".
+
+With atomic_events table, that was stored at raw layer in JSON format, the objective of the ETL job was to save it at the processed layer in delta format, add three new columns (etl_timestamp, event_date, source_filename) and partition the data by event_date.
+
+With orders table, that was stored at raw layer in parquet format, the objective of the ETL job was the same of the job at atomic_events.
+
+If you want to see more complex ETL Spark jobs, I did a  project with some examples. ([Link](https://github.com/PHTF92/data-lake-example))
+
+#### Redshift
+
+Development branch: develop-redshift
+
+To query the data inside the processed layer an AWS Redshift Spectrum instance was created.
+
+![databricks_github_actions](images/databricks_github_actions.png)
+
+To connect to the instance it was used DBeaver.
+
+The password can be found at "secrets manager".
+
+![redshift_DBeaver_connection](images/redshift_DBeaver_connection.png)
+
+Once connected an external schema was created. 
+([Link](https://docs.aws.amazon.com/pt_br/redshift/latest/dg/r_CREATE_EXTERNAL_SCHEMA.html))
+
+```SQL
+CREATE EXTERNAL SCHEMA data_lake_processed
+FROM DATA CATALOG
+DATABASE 'glue_phtf_develop_data_lake_processed'
+REGION 'us-east-1'
+IAM_ROLE 'arn:aws:iam::633372182605:role/develop-redshift-stack-iamdevelopredshiftspectrumr-17SHA0ZN6UN7U'
+```
+
+![redshift_data_lake_processed](images/redshift_data_lake_processed.png)
+
+So now we have the Redshift connected to Glue Catalog and we can query the data.
+
+* Atomic Events
+![redshift_atomic_events](images/redshift_atomic_events.png)
+![redshift_atomic_events_count](images/redshift_atomic_events_count.png)
+
+* Orders
+![redshift_orders](images/redshift_orders.png)
+![redshift_orders_count](images/redshift_orders_count.png)
