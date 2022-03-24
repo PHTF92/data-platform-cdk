@@ -15,6 +15,7 @@ The ingestion to the raw layer is done using an AWS Database Migration Service, 
 * Language: Python 3.8
 * AWS Services: RDS, DMS, S3, IAM
 * Database: Postgrees
+* Containers: docker and docker-compose
 
 
 ## 3 - Infrastructure:
@@ -230,3 +231,43 @@ So now we have the Redshift connected to Glue Catalog and we can query the data.
 * Orders
 ![redshift_orders](images/redshift_orders.png)
 ![redshift_orders_count](images/redshift_orders_count.png)
+
+
+#### Airflow
+
+Development branch: airflow-docker
+
+To execute scheduled operations was used airflow. Airflow is a workflow orchestrator. With it we can program, schedule and consultations from different sources.
+
+At this work Airflow was configured to call an API that provides cryptocurrency prices ([Link](https://www.mercadobitcoin.com.br/api-doc/)) and saving it in JSON format at the raw bucket that was created before.
+
+The airflow was deployed locally inside dockers containers using docker-compose.
+
+The aim was to consult the daily price for Bitcoin, Bitcoin Cash, Etherium and Litecoin since 01/01/2022.
+
+Two tasks were created for each of the four coins:
+* Get the respective daily coin price from the API
+* Save the data into the S3 raw bucket in JSON format
+
+![airflow_tree](images/airflow_tree.png)
+
+When the airflow deploy was finished the task was turned on and triggered.
+The jobs started running and then saved the data into the respective coin folder.
+
+![airflow_coins_folders](images/airflow_coins_folders.png)
+
+Bellow there is a graph representation of a successfully executed job.
+
+![airflow_graph](images/airflow_graph.png)
+
+When the job is finished there is a JSON file with the respective daily price.
+
+![airflow_file_example](images/airflow_file_example.png)
+
+As retroative consulting was enabled, the jobs runned for every day since 01/01/2022 as it can be seen in the figure bellow:
+
+![airflow_retroative_executions](images/airflow_retroative_executions.png)
+
+#### DBT
+
+https://blog.getdbt.com/is-dbt-the-right-tool-for-my-data-transformations/#:~:text=dbt%20is%20not%20an%20ETL,extract%2C%20load%2C%20transform).
