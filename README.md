@@ -2,27 +2,31 @@
 
 ## 1 - Introduction and project overview
 
-This project was developed to create an infrastructure as a code (IaC) to build a complete data lake enviroment. The deploy is done automatically using github actions and it supports three enviroments: develop, staging and production. The CDK framework is used to orchestrate the creation of the infrastructure.
+This project was developed during Data Engineering Bootcamp (How bootcamps) and aimed to create an infrastructure as a code (IaC) to build a complete data lake enviroment. The deploy is done automatically using github actions and it supports three enviroments: develop, staging and production. The CDK framework is used to orchestrate the creation of the infrastructure.
 The full infrastructure diagram is represented below:
 
-imvpivqmemfmgiopmvomrtvropitmoptirm
-rtvpokrtpokrtopvkoprkoprkvporrtdf
+![project_diagram](images/project_diagram.png)
 
 The layers of the data lake are raw, processed and aggregated.
 The ingestion to the raw layer is done using an AWS Database Migration Service, that is responsible for ingesting the data of a RDS postgres instance into the S3 bucket. The RDS postgres instance has its data inserted using a python script.
 
 ## 2 - Tecnologies and tools used
 * Language: Python 3.8
-* AWS Services: RDS, DMS, S3, IAM
+* AWS Services: RDS, DMS, S3, IAM, Athena, Glue, Kinesis, Redshift
 * Database: Postgrees
-* Containers: docker and docker-compose
+* Tools: airflow, Spark, Databricks
 
 
 ## 3 - Infrastructure:
 * S3 bucket: where the parquet files are stored
 * RDS instance: a postgres instance that the data will be copied from. To populate the database the script "insert.py" should be executed. It is responsible for connecting to the instance and the insert random data to the database.
 * DMS instance: a database migration service that will be used to copy the data from the RDS instance to the S3 bucket.
-
+* Kinisesis firehose: responsilbe for dumping a stream of events representing fake web events.
+* Glue catalog: Determines the schema of the differents tables.
+* Athena: tool to query data into the bucket.
+* Databricks: manages the Spark cluster.
+* Redshift: queries the data into the processed layer.
+* Airflow: orchestration tool that manages the ingestion into the raw layer of historical crypto currency data extracted from an external API.
 
 ## 4 - How it works
 
@@ -267,7 +271,3 @@ When the job is finished there is a JSON file with the respective daily price.
 As retroative consulting was enabled, the jobs runned for every day since 01/01/2022 as it can be seen in the figure bellow:
 
 ![airflow_retroative_executions](images/airflow_retroative_executions.png)
-
-#### DBT
-
-https://blog.getdbt.com/is-dbt-the-right-tool-for-my-data-transformations/#:~:text=dbt%20is%20not%20an%20ETL,extract%2C%20load%2C%20transform).
