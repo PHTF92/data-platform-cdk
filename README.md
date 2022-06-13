@@ -60,7 +60,7 @@ HOST=<RDS_HOST_ADDRESS>
 
 #### AWS account configuration
 
-One small configuration must be done to successfully deploy the platform. a DMS VPC role must be previously defined. To do this simply configure a new role at IAM panel, selecting DMS as service and add the AmazonDMSVPCManagementRole policy. Call this new role dms-vpc-role.
+One small configuration must be done to successfully deploy the platform. A DMS VPC role must be previously defined. To do this simply configure a new role at IAM panel, selecting DMS as service and add the AmazonDMSVPCManagementRole policy. Call this new role dms-vpc-role.
 
 ### 4.2 - Development steps
 #### S3 Buckets
